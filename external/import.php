@@ -18,24 +18,19 @@ if (!is_readable($file)) {
     throw new InvalidArgumentException($file . ' isn\'t readable');
 }
 
-$fp = fopen($file, 'r');
-if (!$fp) {
-    throw new RuntimeException('Can\'t open ' . $file);
-}
-
 $container = ServiceContainer::instance();
 /** @var SaverInterface $saver */
 $saver = $container['saver'];
 
-while (!feof($fp)) {
-    $line = fgets($fp);
-    $data = json_decode($line, true);
-    if ($data) {
-        try {
-            $saver->save($data);
-        } catch (Throwable $e) {
-            error_log($e);
-        }
+$fileData = file_get_contents($file);
+
+$data = json_decode($fileData, true);
+if (isset($data[0])) {
+    try {
+        $saver->save($data[0]);
+    } catch (Throwable $e) {
+        error_log($e);
     }
+
 }
-fclose($fp);
+

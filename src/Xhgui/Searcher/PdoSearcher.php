@@ -31,7 +31,7 @@ class PdoSearcher implements SearcherInterface
                 'get' => json_decode($row['GET'], true),
                 'env' => json_decode($row['ENV'], true),
                 'simple_url' => $row['simple_url'],
-                'request_ts' => (int) $row['request_ts'],
+                'request_ts' => (int)$row['request_ts'],
                 'request_ts_micro' => $row['request_ts_micro'],
                 'request_date' => $row['request_date'],
             ],
@@ -53,7 +53,7 @@ class PdoSearcher implements SearcherInterface
     public function get($id): Profile
     {
         $row = $this->db->getById($id);
-
+        $profile = json_decode($row['profile'], true);
         return new Profile([
             '_id' => $id,
             'meta' => [
@@ -62,11 +62,11 @@ class PdoSearcher implements SearcherInterface
                 'get' => json_decode($row['GET'], true),
                 'env' => json_decode($row['ENV'], true),
                 'simple_url' => $row['simple_url'],
-                'request_ts' => (int) $row['request_ts'],
+                'request_ts' => (int)$row['request_ts'],
                 'request_ts_micro' => $row['request_ts_micro'],
                 'request_date' => $row['request_date'],
             ],
-            'profile' => json_decode($row['profile'], true),
+            'profile' => $profile,
         ]);
     }
 
@@ -130,11 +130,11 @@ class PdoSearcher implements SearcherInterface
                 ],
                 'profile' => [
                     'main()' => [
-                        'wt' => (int) $row['main_wt'],
-                        'ct' => (int) $row['main_ct'],
-                        'cpu' => (int) $row['main_cpu'],
-                        'mu' => (int) $row['main_mu'],
-                        'pmu' => (int) $row['main_pmu'],
+                        'wt' => (int)$row['main_wt'],
+                        'ct' => (int)$row['main_ct'],
+                        'cpu' => (int)$row['main_cpu'],
+                        'mu' => (int)$row['main_mu'],
+                        'pmu' => (int)$row['main_pmu'],
                     ],
                 ],
             ]);
